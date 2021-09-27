@@ -31,8 +31,6 @@ public class Main{
 
             map=new HashMap<>();
             readHashmap(map);
-            FileWriter out=new FileWriter("Files/Hashamp/hashmap.txt");
-            BufferedWriter out2=new BufferedWriter(out);
 
             while(true){
                 System.out.println(map.size());
@@ -47,20 +45,21 @@ public class Main{
                 String accountType=reader.readLine();
 
                 if(accountType.equals("new")){
+                    //create new account
                     username=reader.readLine();
                     password=reader.readLine();
                     String fullname=reader.readLine();
                     String balance=reader.readLine();
                     String currency=reader.readLine();
-
-
-                    out2.append(username+"\n"+password);
+                    FileWriter fileWriter=new FileWriter("Files/Hashamp/hashmap.txt",true);
+                    fileWriter.write(username+" "+password+"\n");
+                    fileWriter.flush();
                     readHashmap(map);
-                    out2.close();
-
+                    fileWriter.close();
                     ClientData data=new ClientData(username,fullname,balance,currency);
                 }
-                else{
+                else if(accountType.equals("old")){
+                    //log in to account
                     username=reader.readLine();
                     System.out.println(username);
                     password=reader.readLine();
@@ -76,6 +75,7 @@ public class Main{
                     }
                 }
             }
+
         }
         catch (IOException e) {
             e.printStackTrace();

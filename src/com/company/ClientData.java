@@ -17,7 +17,7 @@ public class ClientData {
         this.balance = balance;
         this.currency=currency;
 
-        File file=new File("Files/"+username+".txt");
+        File file=new File("Files/Accounts/"+username+".txt");
         PrintWriter out=new PrintWriter(file);
         out.println(username+"\n"+fullname+"\n"+balance+"\n"+currency+"\nend");
         System.out.println(username+"\n"+fullname+"\n"+balance+"\n"+currency+"\nend");
