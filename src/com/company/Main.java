@@ -73,6 +73,7 @@ public class Main{
                         writer.write("False"+"\n");
                         writer.flush();
                     }
+                    ClientData data=new ClientData(username,writer,reader);
                 }
             }
 
