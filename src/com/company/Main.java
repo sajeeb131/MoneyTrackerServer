@@ -51,21 +51,21 @@ public class Main{
                     String fullname=reader.readLine();
                     String balance=reader.readLine();
                     String currency=reader.readLine();
+
                     FileWriter fileWriter=new FileWriter("Files/Hashamp/hashmap.txt",true);
                     fileWriter.write(username+" "+password+"\n");
                     fileWriter.flush();
                     readHashmap(map);
                     fileWriter.close();
-                    ClientData data=new ClientData(username,fullname,balance,currency);
+
+                    ClientData data=new ClientData(username,fullname,balance,currency,writer,reader);
                 }
                 else if(accountType.equals("old")){
                     //log in to account
                     username=reader.readLine();
-                    System.out.println(username);
                     password=reader.readLine();
-                    System.out.println(password);
-                    System.out.println(map.containsKey(username));
-                    if(map.containsKey(username)){
+                    String pass=map.get(username);
+                    if(pass.equals(password)){
                         writer.write("True"+"\n");
                         writer.flush();
                     }
