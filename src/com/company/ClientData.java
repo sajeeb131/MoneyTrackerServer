@@ -1,20 +1,31 @@
 package com.company;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import jdk.jfr.Category;
+
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Scanner;
 
 public class ClientData implements Runnable {
     ArrayList<ClientData> clients = new ArrayList();
-    String username, fullname, balance, currency, loan = "00";
-    double amount=0, bill=0, grocery=0, transport=0, restaurant=0, shopping=0;
+    String username;
+    String fullname;
+    String balance;
+    String currency;
+    String loan = "00";
+    double amount = 0.0D;
+    double bill = 0.0D;
+    double grocery = 0.0D;
+    double transport = 0.0D;
+    double restaurant = 0.0D;
+    double shopping = 0.0D;
+
+    String infoHistory;
+
     BufferedReader reader;
     BufferedWriter writer;
+
     public void readData(BufferedReader input) {
         try {
             this.username = input.readLine();
@@ -47,45 +58,54 @@ public class ClientData implements Runnable {
         }
 
     }
-
+    private static void writeInfo(String info, File f) throws IOException{
+        FileWriter fw = new FileWriter(f, true);
+        fw.write("\n"+info);
+        fw.close();
+    }
     public void run() {
         while(true) {
             try {
                 String category = this.reader.readLine();
                 String amountStr = this.reader.readLine();
-
                 String date = this.reader.readLine();
                 String description = this.reader.readLine();
-                System.out.println(category+" "+amountStr+" "+date+" "+description);
-                amount = Double.parseDouble(amountStr);
-                writer.write(category+"\n");
-                if(category.equals("Bills")){
-                    bill+=amount;
-                    writer.write(bill+"\n");
+                this.amount = Double.parseDouble(amountStr);
+                this.writer.write(category + "\n");
+                if (category.equals("Bills")) {
+                    this.bill += this.amount;
+                    this.writer.write(this.bill + "\n");
                 }
-                if(category.equals("Grocery")){
-                    grocery+=amount;
-                    writer.write(grocery+"\n");
+
+                if (category.equals("Grocery")) {
+                    this.grocery += this.amount;
+                    this.writer.write(this.grocery + "\n");
                 }
-                if(category.equals("Restaurant")){
-                    restaurant+=amount;
-                    writer.write(restaurant+"\n");
+
+                if (category.equals("Restaurant")) {
+                    this.restaurant += this.amount;
+                    this.writer.write(this.restaurant + "\n");
                 }
-                if(category.equals("Transport")){
-                    transport+=amount;
-                    writer.write(transport+"\n");
+
+                if (category.equals("Transport")) {
+                    this.transport += this.amount;
+                    this.writer.write(this.transport + "\n");
                 }
-                if(category.equals("Shopping")){
-                    shopping+=amount;
-                    writer.write(shopping+"\n");
+
+                if (category.equals("Shopping")) {
+                    this.shopping += this.amount;
+                    this.writer.write(this.shopping + "\n");
                 }
-                writer.flush();
+                this.writer.flush();
+                infoHistory=date+" "+category+": "+ amountStr+", Description: "+description+" ";
+                System.out.println(infoHistory);
+                File f = new File("Files/Accounts/" + username + ".txt");
+                writeInfo(infoHistory,f);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
-
     public ClientData(String username, String fullname, String balance, String currency, BufferedWriter writer, BufferedReader reader) throws FileNotFoundException, IOException {
         this.username = username;
         this.fullname = fullname;
