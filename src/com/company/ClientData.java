@@ -55,27 +55,35 @@ public class ClientData implements Runnable {
                 String amountStr = this.reader.readLine();
 
                 String date = this.reader.readLine();
-                String var4 = this.reader.readLine();
-                System.out.println(category+" "+amountStr+" "+date+" "+var4);
+                String description = this.reader.readLine();
+                System.out.println(category+" "+amountStr+" "+date+" "+description);
                 amount = Double.parseDouble(amountStr);
 
                 if(category.equals("Bills")){
                     bill+=amount;
+                    String billstr = bill+"";
+                    writer.write(category+"\n");
+                    writer.write(billstr+"\n");
                 }
                 if(category.equals("Grocery")){
                     grocery+=amount;
+                    writer.write(grocery+"\n");
                 }
                 if(category.equals("Restaurant")){
                     restaurant+=amount;
+                    writer.write(restaurant+"\n");
                 }
                 if(category.equals("Transport")){
                     transport+=amount;
+                    writer.write(transport+"\n");
                 }
                 if(category.equals("Shopping")){
                     shopping+=amount;
+                    writer.write(shopping+"\n");
                 }
-            } catch (IOException var5) {
-                var5.printStackTrace();
+                writer.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -89,7 +97,7 @@ public class ClientData implements Runnable {
         this.writer = writer;
         File file = new File("Files/Accounts/" + username + ".txt");
         PrintWriter out = new PrintWriter(file);
-        out.println("start\n" + username + "\n" + fullname + "\n" + balance + "\n" + currency + "\n" + this.loan + "\nend");
+        out.println(username + "\n" + fullname + "\n" + balance + "\n" + currency + "\n" + this.loan + "\nend");
         System.out.println(username + "\n" + fullname + "\n" + balance + "\n" + currency + "\nend");
         out.close();
     }
