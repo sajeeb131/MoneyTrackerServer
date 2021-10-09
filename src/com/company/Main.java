@@ -74,9 +74,14 @@ public class Main{
                         writer.flush();
                     }
                     ClientData data=new ClientData(username,writer,reader);
+                    Thread thread=new Thread(data);
+                    thread.start();
                 }
             }
 
+        }
+        catch (SocketException e){
+            e.printStackTrace();
         }
         catch (IOException e) {
             e.printStackTrace();

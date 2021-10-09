@@ -58,12 +58,10 @@ public class ClientData implements Runnable {
                 String description = this.reader.readLine();
                 System.out.println(category+" "+amountStr+" "+date+" "+description);
                 amount = Double.parseDouble(amountStr);
-
+                writer.write(category+"\n");
                 if(category.equals("Bills")){
                     bill+=amount;
-                    String billstr = bill+"";
-                    writer.write(category+"\n");
-                    writer.write(billstr+"\n");
+                    writer.write(bill+"\n");
                 }
                 if(category.equals("Grocery")){
                     grocery+=amount;
