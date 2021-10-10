@@ -1,0 +1,13 @@
+sajeeb131
+Sajeeb Sarkar
+50000
+US Dollar
+00
+end
+
+2021-10-10 Bills: 500, Description: electric bill 
+2021-10-09 Restaurant: 1000, Description: Chicken khaisi 
+2021-10-11 Shopping: 5000, Description: Market 
+2021-10-11 Shopping: 5000, Description: Market 
+2021-10-11 Shopping: 5000, Description: Market 
+2021-10-11 Bills: 5000, Description: Market 
