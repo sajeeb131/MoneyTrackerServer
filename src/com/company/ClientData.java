@@ -5,7 +5,6 @@ import jdk.jfr.Category;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class ClientData implements Runnable {
@@ -16,6 +15,7 @@ public class ClientData implements Runnable {
     double amount;
 
     String infoHistory;
+    int historyLength=0;
 
     BufferedReader reader;
     BufferedWriter writer;
@@ -79,44 +79,45 @@ public class ClientData implements Runnable {
     public void run() {
         while(true) {
             try {
-                String category = this.reader.readLine();
-                String amountStr = this.reader.readLine();
-                String date = this.reader.readLine();
-                String description = this.reader.readLine();
-                this.amount = Double.parseDouble(amountStr);
-                this.writer.write(category + "\n");
+                String category = reader.readLine();
+                String amountStr = reader.readLine();
+                String date = reader.readLine();
+                String description = reader.readLine();
+                amount = Double.parseDouble(amountStr);
+                writer.write(category + "\n");
                 if (category.equals("Bills")) {
                     bill=(Double.parseDouble(bill)+amount)+"";
                     System.out.println(bill);
-                    this.writer.write(this.bill + "\n");
+                    writer.write(bill + "\n");
                 }
 
                 if (category.equals("Grocery")) {
                     grocery=(Double.parseDouble(grocery)+amount)+"";
-                    this.writer.write(this.grocery + "\n");
+                    writer.write(grocery + "\n");
                 }
 
                 if (category.equals("Restaurant")) {
                     restaurant=(Double.parseDouble(restaurant)+amount)+"";
-                    this.writer.write(this.restaurant + "\n");
+                    writer.write(restaurant + "\n");
                 }
 
                 if (category.equals("Transport")) {
                     transport=(Double.parseDouble(transport)+amount)+"";
-                    this.writer.write(this.transport + "\n");
+                    this.writer.write(transport + "\n");
                 }
 
                 if (category.equals("Shopping")) {
                     shopping=(Double.parseDouble(shopping)+amount)+"";
-                    this.writer.write(this.shopping + "\n");
+                    writer.write(shopping + "\n");
                 }
 
-                this.writer.flush();
+                writer.flush();
                 infoHistory=date+" "+category+": "+ amountStr+", Description: "+description+" ";
                 System.out.println(infoHistory);
-                File f = new File("Files/Accounts/" + username + ".txt");
+                File f = new File("Files/Accounts/" + this.username + ".txt");
                 writeInfo(infoHistory,f);
-
+                historyLength++;
+                updateHashmapFile();
             }
             catch (IOException e) {
                 e.printStackTrace();
