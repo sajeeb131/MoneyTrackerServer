@@ -60,11 +60,19 @@ public class ClientData implements Runnable {
             File file = new File("Files/Accounts/" + username + ".txt");
             BufferedReader input = new BufferedReader(new FileReader(file));
             this.readData(input);
+            //Account Details update
             writer.write(username + "\n");
-            writer.write(this.fullname + "\n");
-            writer.write(this.balance + "\n");
-            writer.write(this.loan + "\n");
-            writer.write(this.currency + "\n");
+            writer.write(fullname + "\n");
+            writer.write(balance + "\n");
+            writer.write(loan + "\n");
+            writer.write(currency + "\n");
+            //Categories Amount update
+            writer.write(bill+"\n");
+            writer.write(grocery+"\n");
+            writer.write(restaurant+"\n");
+            writer.write(shopping+"\n");
+            writer.write(transport+"\n");
+            writer.write(loan+"\n");
             writer.flush();
 
         } catch (Exception e) {
@@ -85,7 +93,7 @@ public class ClientData implements Runnable {
                 String description = reader.readLine();
                 amount = Double.parseDouble(amountStr);
                 writer.write(category + "\n");
-                if (category.equals("Bills")) {
+                if (category.equals("Bill")) {
                     bill=(Double.parseDouble(bill)+amount)+"";
                     System.out.println(bill);
                     writer.write(bill + "\n");
@@ -142,7 +150,7 @@ public class ClientData implements Runnable {
         //Creating a file and initializing users balance, and other categories
         FileWriter fileWriter=new FileWriter("Files/Hashamp/"+username+"MAP"+".txt",true);
         fileWriter.write("Balance"+" "+balance+"\n"+
-                "Bills 0.0\n"+"Grocery 0.0\n"+"Transportation 0.0\n"+"Restaurant 0.0\n"+"Shopping 0.0\n"+"Loan 0.0\n");
+                "Bill 0.0\n"+"Grocery 0.0\n"+"Transportation 0.0\n"+"Restaurant 0.0\n"+"Shopping 0.0\n"+"Loan 0.0\n");
         fileWriter.flush();
         fileWriter.close();
     }
