@@ -1,6 +1,7 @@
 package com.company;
 
 import java.io.*;
+import java.net.ConnectException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -80,11 +81,16 @@ public class Main{
             }
 
         }
+        catch (ConnectException e){
+            e.getSuppressed();
+        }
         catch (SocketException e){
             e.printStackTrace();
         }
+
         catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 }

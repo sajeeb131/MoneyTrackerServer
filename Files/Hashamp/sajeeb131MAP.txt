@@ -1,7 +1,0 @@
-Balance 50000
-Bill 5000.0
-Grocery 0.0
-Transportation 0.0
-Restaurant 0.0
-Shopping 15000.0
-Loan 00
