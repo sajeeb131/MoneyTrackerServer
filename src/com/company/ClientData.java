@@ -42,6 +42,8 @@ public class ClientData implements Runnable {
         shopping=map.get("Shopping");
         loan=map.get("Loan");
         eventDate =map.get("Event");
+        eventInfo=map.get("EventInfo");
+        eventAmount=map.get("EventAmount");
     }
 
     public ClientData(String username, BufferedWriter writer, BufferedReader reader) {
@@ -100,31 +102,37 @@ public class ClientData implements Runnable {
                     String date = reader.readLine();
                     String description = reader.readLine();
                     amount = Double.parseDouble(amountStr);
+                    balance=(Double.parseDouble(balance)-amount)+"";
                     writer.write(category + "\n");
                     if (category.equals("Bill")) {
                         bill=(Double.parseDouble(bill)+amount)+"";
                         System.out.println(bill);
                         writer.write(bill + "\n");
+                        writer.write(balance+"\n");
                     }
 
                     else if (category.equals("Grocery")) {
                         grocery=(Double.parseDouble(grocery)+amount)+"";
                         writer.write(grocery + "\n");
+                        writer.write(balance+"\n");
                     }
 
                     else if (category.equals("Restaurant")) {
                         restaurant=(Double.parseDouble(restaurant)+amount)+"";
                         writer.write(restaurant + "\n");
+                        writer.write(balance+"\n");
                     }
 
                     else if (category.equals("Transport")) {
                         transport=(Double.parseDouble(transport)+amount)+"";
                         this.writer.write(transport + "\n");
+                        writer.write(balance+"\n");
                     }
 
                     else if (category.equals("Shopping")) {
                         shopping=(Double.parseDouble(shopping)+amount)+"";
                         writer.write(shopping + "\n");
+                        writer.write(balance+"\n");
                     }
 
                     writer.flush();
@@ -156,16 +164,17 @@ public class ClientData implements Runnable {
 
                     eventDate =reader.readLine();
                     eventInfo=reader.readLine();
-                    System.out.println("event amount "+eventInfo);
+                    //System.out.println("event amount "+eventInfo);
                     eventAmount=reader.readLine();
-                    System.out.println("event Amount "+eventAmount);
+                    //System.out.println("event Amount "+eventAmount);
                     updateHashmapFile();
                 }
                 else if(read.equals("EventInfo")){
                     System.out.println("inside Event info");
                     writer.write(eventInfo+"\n");
+                    balance=(Double.parseDouble(balance)-Double.parseDouble(eventAmount))+"";
+                    writer.write(balance+"\n");
                     writer.flush();
-                    balance=(Double.parseDouble(eventAmount)+Double.parseDouble(balance))+"";
                     updateHashmapFile();
                 }
             }
@@ -205,7 +214,7 @@ public class ClientData implements Runnable {
         fileWriter.write("Balance"+" "+balance+"\n"+
                 "Bill"+" "+bill+"\n"+"Grocery"+" "+grocery+"\n"+"Transportation"+" "+transport+"\n"+
                 "Restaurant"+" "+restaurant+"\n"+"Shopping"+" "+shopping+"\n"+"Loan"+" "+loan+"\n"+"Event"+" "+
-                eventDate +"\n"+"EventInfo"+" "+eventInfo+"\n"+"EventAmount"+" "+eventAmount+"\n");
+                eventDate +"\n"+"EventInfo"+" "+eventInfo+"\n"+"EventAmount"+" "+eventAmount);
         fileWriter.flush();
         fileWriter.close();
     }
