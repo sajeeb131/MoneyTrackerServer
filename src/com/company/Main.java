@@ -34,7 +34,7 @@ public class Main{
             readHashmap(map);
 
             while(true){
-                System.out.println(map.size());
+                System.out.println("Users: "+map.size());
                 Socket sc=src.accept();
                 System.out.println("server is connected to client");
 

@@ -7,14 +7,12 @@ import java.util.Scanner;
 
 public class ClientData implements Runnable {
     HashMap<String,String> map=new HashMap<>();
-    ArrayList<ClientData> clients = new ArrayList();
     String username,fullname,balance,currency;
     String bill,grocery,transport,restaurant,shopping,loan = "00";
     String eventDate,eventInfo,eventAmount;
     double amount;
 
     String infoHistory;
-    int historyLength=0;
 
     BufferedReader reader;
     BufferedWriter writer;
@@ -45,6 +43,7 @@ public class ClientData implements Runnable {
         eventInfo=map.get("EventInfo");
         eventAmount=map.get("EventAmount");
     }
+
 
     public ClientData(String username, BufferedWriter writer, BufferedReader reader) {
         this.writer = writer;
@@ -77,11 +76,10 @@ public class ClientData implements Runnable {
             writer.write(loan+"\n");
 
             //send event date
-            System.out.println("Event date: "+ eventDate);
             writer.write(eventDate +"\n");
             writer.flush();
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -90,23 +88,25 @@ public class ClientData implements Runnable {
         fw.write("\n"+info);
         fw.close();
     }
+
     public void run() {
         while(true) {
             try {
                 String read=reader.readLine();//to read add Transaction or add balance
-                System.out.println(read);
 
                 if(read.equals("Transaction")){
                     String category = reader.readLine();
                     String amountStr = reader.readLine();
                     String date = reader.readLine();
                     String description = reader.readLine();
+
+                    infoHistory=date+" "+category+": "+ amountStr+", Description: "+description+" ";
                     amount = Double.parseDouble(amountStr);
                     balance=(Double.parseDouble(balance)-amount)+"";
                     writer.write(category + "\n");
+
                     if (category.equals("Bill")) {
                         bill=(Double.parseDouble(bill)+amount)+"";
-                        System.out.println(bill);
                         writer.write(bill + "\n");
                         writer.write(balance+"\n");
                     }
@@ -136,11 +136,10 @@ public class ClientData implements Runnable {
                     }
 
                     writer.flush();
-                    infoHistory=date+" "+category+": "+ amountStr+", Description: "+description+" ";
-                    System.out.println(infoHistory);
+
+                    //writing transaction history to user main file.
                     File f = new File("Files/Accounts/" + this.username + ".txt");
                     writeInfo(infoHistory,f);
-                    historyLength++;
 
                     //updating user hashfile
                     updateHashmapFile();
@@ -153,7 +152,6 @@ public class ClientData implements Runnable {
                     writer.write("Balance"+"\n");
                     writer.write(balance+"\n");
                     writer.flush();
-                    System.out.println("new balance: "+balance);
 
                     //updating user hash file
                     updateHashmapFile();
@@ -172,6 +170,7 @@ public class ClientData implements Runnable {
                 else if(read.equals("EventInfo")){
                     System.out.println("inside Event info");
                     writer.write(eventInfo+"\n");
+                    writer.write(eventAmount+"\n");
                     balance=(Double.parseDouble(balance)-Double.parseDouble(eventAmount))+"";
                     writer.write(balance+"\n");
                     writer.flush();
